@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import logo from '../assets/logo.svg';
 import '../css/login.css';
 import axios from 'axios';
 import md5 from 'md5';
@@ -29,6 +30,7 @@ export default class Login extends Component {
     iniciarSesion=async()=>{
         await axios.get(baseURL, {params: {correo: this.state.form.correo, psw: md5(this.state.form.psw)}})
         .then(response=>{
+            console.log(response.data);
             return response.data;
         })
         .then(response=>{
@@ -41,7 +43,7 @@ export default class Login extends Component {
                 cookies.set('telefono', respuesta.telefono, {path: "/"});
                 cookies.set('correo', respuesta.correo, {path: "/"});
                 alert(`Bienvenido ${respuesta.nombre} ${respuesta.apellidoPat}`);
-                window.location.href="./menu";
+                window.location.href="./productos";
             }else{
                 alert('El usuario o la contraseña no son correctos');
             }
@@ -59,28 +61,21 @@ export default class Login extends Component {
 
     render() {
         return (
-            <div className="containerPrincipal">
-                <div className="containerSecundario">
-                    <div className="form-group">
-                        <label>Correo: </label>
-                        <br />
-                            <input 
-                                type="email" 
-                                className="form-control" 
-                                name="correo" 
-                                onChange={this.handleChange}/>
-                        <br />
-                            <label>Contraseña: </label>
-                        <br />
-                            <input 
-                                type="password" 
-                                className="form-control" 
-                                name="psw" 
-                                onChange={this.handleChange}/>
-                        <br />
-                        <button className="btn btn-primary" onClick={()=> this.iniciarSesion()}>Iniciar Sesión</button>
+            <div className='bg-gray-200 text-center form-signin w-100 m-auto'>
+                <form>
+                    <img className="mb-4" src={logo} alt="" width="150" height="150"></img>
+                    <h1 className="h3 mb-3 fw-normal">Inicia sesión</h1>
+                    <div className="form-floating">
+                        <input type="email" className="form-control" name="correo" onChange={this.handleChange}/>
+                        <label htmlFor="floatingInput">Correo electrónico</label>
                     </div>
-                </div>
+                    <div className="form-floating">
+                        <input type="password" className="form-control" name="psw" onChange={this.handleChange}/>
+                        <label htmlFor="floatingPassword">Contraseña</label>
+                    </div>
+                    <button className="w-100 btn btn-lg btn-primary" onClick={()=> this.iniciarSesion()}>Enviar</button>
+                    <p className="mt-5 mb-3 text-muted">Universidad Politécnica de Pachuca</p>
+                </form>
             </div>
         );
     }
