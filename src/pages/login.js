@@ -55,7 +55,7 @@ export default class Login extends Component {
 
     componentDidMount() {
         if(cookies.get('correo')){
-            window.location.href="./menu";
+            window.location.href="./productos";
         }
     }
 

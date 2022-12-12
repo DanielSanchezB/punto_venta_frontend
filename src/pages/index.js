@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import 'bootstrap/dist/css/bootstrap.min.css';
 import logo from '../assets/logo.svg';
 
+// export default class index extends Component {
 export default class index extends Component {
   render() {
     return (

@@ -1,8 +1,51 @@
-import React from "react";
+// import React from "react";
+// import React, {Fragment, useState, useEffect} from "react";
+import React, {useState} from "react";
 
-const ListaProductos = ({producto, setProducto, productos, setListaActualizada}) => {
+const ListaProductos = ({producto, setProducto, productos, setListaActualizada, setSumaActualizada}) => {
 
     let{nombre, precio, cantidad} = producto
+
+    console.log(productos)
+
+    // const producto_orden = useState({
+    //     idOrden: 1,
+    //     idProducto: productos.idProducto,
+    //     cantidad: 1,
+    //     subtotal: productos.precio,
+    // })
+
+    
+    const handleAgregar = (id, precio) => {
+        // const producto_orden = {
+        //     idOrden: 1,
+        //     idProducto: id,
+        //     cantidad: 1,
+        //     subtotal: precio
+        // }
+        const producto_orden = {
+            idOrden: 1,
+            idProducto: id,
+            cantidad: 1,
+            subtotal: precio
+        }
+        const requestInit = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(producto_orden)
+        }
+        fetch('http://localhost:9000/resumen/', requestInit)
+        .then(res => res.text())
+        .then(res => console.log(res))
+
+        setSumaActualizada(true)
+
+        // window.location.reload()
+    }
+
+    // ******************************************************************
+    // 
+    // ******************************************************************
 
     const handleEliminar = id => {
         const requestInit = {
@@ -41,13 +84,14 @@ const ListaProductos = ({producto, setProducto, productos, setListaActualizada})
     }
 
     return (
-        <table className="table">
+        <table className="table table-striped table-dark">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Precio</th>
                     <th>Cantidad</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -63,8 +107,12 @@ const ListaProductos = ({producto, setProducto, productos, setListaActualizada})
                             </div>
                             {/* <div className="mb-3"> */}
                             <div class="d-grid gap-2 col-6 mx-auto">
-                                <button onClick={() => handleEliminar(productos.id)} className="btn btn-danger">Eliminar</button>
-                                <button onClick={() => handleActualizar(productos.id)} className="btn btn-warning">Actualizar</button>
+                            <form onSubmit={() => handleAgregar(productos.id, productos.precio)} class="form-inline my-2 my-lg-0">
+                                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Agregar</button>
+                            </form>
+                                {/* <button onClick={() => handleAgregar(productos.id, productos.precio)} className="btn btn-success">Agregar</button> */}
+                                {/* <button onClick={() => handleEliminar(productos.id)} className="btn btn-danger">Eliminar</button> */}
+                                {/* <button onClick={() => handleActualizar(productos.id)} className="btn btn-warning">Actualizar</button> */}
                             </div>
                         </td>
                     </tr>
